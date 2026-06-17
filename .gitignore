@@ -1,0 +1,59 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+secrets.py
+app_secrets.py
+config_local.py
+
+# Database
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+instance/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+env/
+ENV/
+.venv
+
+# Uploads and temporary files
+uploads/
+*.csv
+!nta_lookup_output.csv
+temp/
+tmp/
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# OS specific
+Thumbs.db
+.Trash-*
