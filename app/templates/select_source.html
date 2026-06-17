@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Select Data Source - NTA Lookup{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-database"></i> Select Data Source</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Choose how you want to load address data for NTA assignment:</p>
+                
+                <div class="row">
+                    <!-- REDCap API -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 {% if not redcap_api_configured %}border-secondary{% else %}border-primary{% endif %}">
+                            <div class="card-body text-center">
+                                <i class="bi bi-cloud-download display-4 {% if not redcap_api_configured %}text-secondary{% else %}text-primary{% endif %}"></i>
+                                <h5 class="card-title mt-3">REDCap API</h5>
+                                <p class="card-text">Fetch data directly from REDCap using the API.</p>
+                                {% if redcap_api_configured %}
+                                    <a href="{{ url_for('fetch_from_api') }}" class="btn btn-primary">
+                                        <i class="bi bi-cloud-download"></i> Fetch from REDCap
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>
+                                        <i class="bi bi-x-circle"></i> API Not Configured
+                                    </button>
+                                    <small class="d-block mt-2 text-muted">Set REDCAP_API_TOKEN to enable</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LimeSurvey API -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 {% if not limesurvey_api_configured %}border-secondary{% else %}border-info{% endif %}">
+                            <div class="card-body text-center">
+                                <i class="bi bi-clipboard-data display-4 {% if not limesurvey_api_configured %}text-secondary{% else %}text-info{% endif %}"></i>
+                                <h5 class="card-title mt-3">LimeSurvey API</h5>
+                                <p class="card-text">Fetch data directly from LimeSurvey using the API.</p>
+                                {% if limesurvey_api_configured %}
+                                    <a href="{{ url_for('fetch_from_limesurvey') }}" class="btn btn-info">
+                                        <i class="bi bi-cloud-download"></i> Fetch from LimeSurvey
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>
+                                        <i class="bi bi-x-circle"></i> API Not Configured
+                                    </button>
+                                    <small class="d-block mt-2 text-muted">Set LIMESURVEY credentials to enable</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CSV Upload -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-success">
+                            <div class="card-body text-center">
+                                <i class="bi bi-file-earmark-arrow-up display-4 text-success"></i>
+                                <h5 class="card-title mt-3">CSV Upload</h5>
+                                <p class="card-text">Upload a CSV export from REDCap or LimeSurvey.</p>
+                                <a href="{{ url_for('upload_csv') }}" class="btn btn-success">
+                                    <i class="bi bi-upload"></i> Upload CSV
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Optional: Status indicators -->
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6><i class="bi bi-info-circle"></i> Connection Status</h6>
+                        <div class="d-flex flex-wrap gap-3 mt-2">
+                            <span class="badge {% if redcap_api_configured %}bg-success{% else %}bg-secondary{% endif %} p-2">
+                                <i class="bi {% if redcap_api_configured %}bi-check-circle{% else %}bi-x-circle{% endif %}"></i>
+                                REDCap: {% if redcap_api_configured %}Configured{% else %}Not Configured{% endif %}
+                            </span>
+                            <span class="badge {% if limesurvey_api_configured %}bg-success{% else %}bg-secondary{% endif %} p-2">
+                                <i class="bi {% if limesurvey_api_configured %}bi-check-circle{% else %}bi-x-circle{% endif %}"></i>
+                                LimeSurvey: {% if limesurvey_api_configured %}Configured{% else %}Not Configured{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

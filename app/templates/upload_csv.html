@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Upload CSV - NTA Lookup{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-file-earmark-arrow-up"></i> Upload REDCap CSV Export</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Instructions:</strong>
+                    <ol class="mb-0 mt-2">
+                        <li>Export your data from REDCap or LimeSurvey as a CSV file</li>
+                        <li>Ensure the file contains address fields (address, city, state, ZIP)</li>
+                        <li>Upload the file using the form below</li>
+                    </ol>
+                </div>
+                
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        {{ form.csv_file.label(class="form-label") }}
+                        {{ form.csv_file(class="form-control form-control-lg" + (" is-invalid" if form.csv_file.errors else ""), accept=".csv") }}
+                        {% for error in form.csv_file.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <small class="form-text text-muted">Maximum file size: 16MB. Only CSV files are accepted.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-success btn-lg") }}
+                        <a href="{{ url_for('select_source') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+                    <div class="card-header">
+                        <i class="bi bi-question-circle"></i> Expected CSV Format
+                    </div>
+                    <div class="card-body">
+                        <p>Your CSV should contain columns similar to:</p>
+                        
+                        <h6>LimeSurvey Format:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Response ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Address</th>
+                                        <th>Address_2</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>ZIP Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Jeff</td>
+                                        <td>Smith</td>
+                                        <td>521 41st St</td>
+                                        <td></td>
+                                        <td>Brooklyn</td>
+                                        <td>NY</td>
+                                        <td>11232</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h6 class="mt-3">REDCap Format:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>record_id</th>
+                                        <th>aded_selfref_firstname</th>
+                                        <th>aded_selfref_lastname</th>
+                                        <th>abe_address</th>
+                                        <th>abe_address_2</th>
+                                        <th>abe_city</th>
+                                        <th>abe_state</th>
+                                        <th>abe_zip</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Mary</td>
+                                        <td>Smith</td>
+                                        <td>123 Main St</td>
+                                        <td>Apt 4B</td>
+                                        <td>New York</td>
+                                        <td>NY</td>
+                                        <td>10001</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <p class="text-muted mt-3">
+                            <small><i class="bi bi-info-circle"></i> The app automatically detects and processes both LimeSurvey and REDCap CSV formats.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

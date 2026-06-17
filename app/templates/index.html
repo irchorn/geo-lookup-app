@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - NTA Lookup{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </h1>
+        <p class="lead">Welcome, <strong>{{ current_user.username }}</strong>!</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card text-white bg-primary h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-search display-4"></i>
+                <h5 class="card-title mt-3">New Lookup</h5>
+                <p class="card-text">Process REDCap data to assign Neighborhood Tabulation Areas.</p>
+                <a href="{{ url_for('select_source') }}" class="btn btn-light">Start Lookup</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card text-white bg-success h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-pencil display-4"></i>
+                <h5 class="card-title mt-3">Manual Lookup</h5>
+                <p class="card-text">Look up NTA for a single address manually.</p>
+                <a href="{{ url_for('manual_lookup') }}" class="btn btn-light">Enter Address</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not nta_loaded %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>Warning:</strong> NTA mapping file is not loaded. ZIP code lookups may not work correctly.
+</div>
+{% endif %}
+
+{% if not api_configured %}
+<div class="alert alert-info">
+    <i class="bi bi-info-circle"></i>
+    <strong>Note:</strong> REDCap API token is not configured. You can still use CSV upload to process data.
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <h5><i class="bi bi-shield-check text-success"></i> Privacy Notice</h5>
+        <p class="mb-0 text-muted">
+            For your privacy, no lookup history is stored. Results are only available during your current session.
+            Export your results to CSV if you need to save them.
+        </p>
+    </div>
+</div>
+{% endblock %}

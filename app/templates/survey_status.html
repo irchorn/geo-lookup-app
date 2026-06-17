@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Survey Configuration Status</h2>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Survey</th>
+                <th>Key</th>
+                <th>Status</th>
+                <th>API URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for survey in surveys %}
+            <tr>
+                <td>{{ survey.name }}</td>
+                <td><code>{{ survey.key }}</code></td>
+                <td>
+                    {% if survey.configured %}
+                        <span class="badge bg-success">✓ Configured</span>
+                    {% else %}
+                        <span class="badge bg-danger">✗ Not Configured</span>
+                    {% endif %}
+                </td>
+                <td><small>{{ survey.api_url | default('N/A') }}</small></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+</div>
+{% endblock %}

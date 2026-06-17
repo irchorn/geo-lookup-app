@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Manual Lookup - NTA Lookup{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-pencil"></i> Manual Address Lookup</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            {{ form.address_line_1.label(class="form-label") }}
+                            {{ form.address_line_1(class="form-control" + (" is-invalid" if form.address_line_1.errors else ""), placeholder="Street address") }}
+                            {% for error in form.address_line_1.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            {{ form.address_line_2.label(class="form-label") }}
+                            {{ form.address_line_2(class="form-control", placeholder="Apartment, suite, unit, etc. (optional)") }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.city.label(class="form-label") }}
+                            {{ form.city(class="form-control" + (" is-invalid" if form.city.errors else ""), placeholder="City") }}
+                            {% for error in form.city.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            {{ form.state.label(class="form-label") }}
+                            {{ form.state(class="form-control" + (" is-invalid" if form.state.errors else ""), placeholder="State") }}
+                            {% for error in form.state.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            {{ form.zip_code.label(class="form-label") }}
+                            {{ form.zip_code(class="form-control" + (" is-invalid" if form.zip_code.errors else ""), placeholder="ZIP Code") }}
+                            {% for error in form.zip_code.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        {% if result %}
+        <div class="card mt-4 border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-check-circle"></i> Lookup Result</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Address:</dt>
+                    <dd class="col-sm-9">{{ result.full_address }}</dd>
+                    
+                    <dt class="col-sm-3">NTA:</dt>
+                    <dd class="col-sm-9">
+                        {% if result.nta_name == 'Unknown' %}
+                            <span class="badge bg-warning text-dark">Unknown</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ result.nta_name }}</span>
+                        {% endif %}
+                    </dd>
+                    
+                    {% if result.nta_code %}
+                    <dt class="col-sm-3">NTA Code:</dt>
+                    <dd class="col-sm-9">{{ result.nta_code }}</dd>
+                    {% endif %}
+                    
+                    {% if result.latitude and result.longitude %}
+                    <dt class="col-sm-3">Coordinates:</dt>
+                    <dd class="col-sm-9">{{ result.latitude }}, {{ result.longitude }}</dd>
+                    {% endif %}
+                    
+                    <dt class="col-sm-3">Source:</dt>
+                    <dd class="col-sm-9"><span class="badge bg-secondary">{{ result.source }}</span></dd>
+                </dl>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
