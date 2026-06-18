@@ -100,7 +100,7 @@ Audit Log Entry
 
 **Rationale:**
 - ✅ **Data Security:** Participant data never leaves NYU Langone network [2]
-- ✅ **HIPAA Compliance:** No Business Associate Agreement required with external vendors [2]
+- ✅ **HIPAA Conscious:** No Business Associate Agreement required with external vendors [2]
 - ✅ **Performance:** ~1 second per record vs. external API delays [2]
 - ✅ **Cost:** No per-transaction fees; batch processing unlimited
 - ✅ **Compliance:** Meets institutional security policies [2]
